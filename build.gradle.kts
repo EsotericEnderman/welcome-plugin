@@ -48,14 +48,14 @@ val topLevelDomain = "net"
 val projectNameString = rootProject.name
 
 group = topLevelDomain + groupStringSeparator + mainProjectAuthor.lowercase() + groupStringSeparator + snakecase(projectNameString)
-version = "0.0.6"
+version = "0.0.7"
 
 val buildDirectoryString = buildDir.toString()
 
 val projectGroupString = group.toString()
 val projectVersionString = version.toString()
 
-val javaVersion = 21
+val javaVersion = 17
 val javaVersionEnumMember = JavaVersion.valueOf("VERSION_" + javaVersion)
 
 val paperApiMinecraftVersion = "1.20"
