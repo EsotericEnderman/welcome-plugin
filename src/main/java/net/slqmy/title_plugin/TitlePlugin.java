@@ -37,7 +37,7 @@ public final class TitlePlugin extends JavaPlugin implements Listener {
 
     FileConfiguration configuration = getConfig();
 
-    titleComponent =  Component.text(ChatColor.translateAlternateColorCodes('&', configuration.getString("title")));
+    titleComponent = Component.text(ChatColor.translateAlternateColorCodes('&', configuration.getString("title")));
 
     changingSubtitleComponents = Stream.of((List<String>) configuration.getList("subtitle")).map((string) -> Component.text(ChatColor.translateAlternateColorCodes('&', ""))).toList();
 
