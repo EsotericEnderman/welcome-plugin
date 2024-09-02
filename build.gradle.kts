@@ -38,7 +38,7 @@ fun pascalcase(kebabcaseString: String): String {
   return pascalCaseString
 }
 
-description = "A plugin for displaying titles."
+description = "A plugin to display a title and a changing subtitle."
 
 val mainProjectAuthor = "Slqmy"
 val projectAuthors = listOfNotNull(mainProjectAuthor)
@@ -48,7 +48,7 @@ val topLevelDomain = "net"
 val projectNameString = rootProject.name
 
 group = topLevelDomain + groupStringSeparator + mainProjectAuthor.lowercase() + groupStringSeparator + snakecase(projectNameString)
-version = "0.0.3"
+version = "0.0.4"
 
 val buildDirectoryString = buildDir.toString()
 
@@ -72,10 +72,6 @@ repositories {
 
 dependencies {
   paperweight.paperDevBundle(paperApiVersion + "-R0.1-SNAPSHOT")
-
-  implementation("dev.jorel" , "commandapi-bukkit-shade-mojang-mapped" , "9.5.1")
-  
-  implementation("net.lingala.zip4j", "zip4j", "2.11.5")
 }
 
 tasks {

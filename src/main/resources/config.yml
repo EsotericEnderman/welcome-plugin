@@ -1,11 +1,11 @@
 # This is the title that will be displayed once a player joins.
-title: "&atitle"
+title: "&aTitle"
 
-# The subtitles that will be displayed.
+# The subtitles that will be displayed periodically as defined with 'seconds-before-changing'.
 subtitle:
-  - "&asub1"
-  - "&asub2"
-  - "&asub3"
+  - "&aSubtitle 1"
+  - "&aSubtitle 2"
+  - "&aSubtitle 3"
 
 # The time in between subtitles displaying.
 seconds-before-changing: 5

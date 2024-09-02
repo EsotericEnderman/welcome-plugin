@@ -25,10 +25,8 @@ import java.time.Duration;
 public final class TitlePlugin extends JavaPlugin implements Listener {
 
   private Component titleComponent;
-
   private List<TextComponent> changingSubtitleComponents;
-
-  private long secondsBeforeChaning;
+  private long secondsBeforeChanging;
 
   @Override
   public void onEnable() {
@@ -39,11 +37,9 @@ public final class TitlePlugin extends JavaPlugin implements Listener {
 
     FileConfiguration configuration = getConfig();
 
-    titleComponent = Component.text(ChatColor.translateAlternateColorCodes('&', configuration.getString("title", "Title")));
-
+    titleComponent = Component.text(ChatColor.translateAlternateColorCodes('&', configuration.getString("title", "Title (can be changed in config.yml)")));
     changingSubtitleComponents = (List<TextComponent>) Stream.of((configuration.getList("subtitle", List.of())).toArray(String[]::new)).map((string) -> Component.text(ChatColor.translateAlternateColorCodes('&', string))).toList();
-
-    secondsBeforeChaning = configuration.getLong("seconds-before-changing", 5L);
+    secondsBeforeChanging = configuration.getLong("seconds-before-changing", 5L);
   }
 
   @EventHandler
@@ -52,19 +48,19 @@ public final class TitlePlugin extends JavaPlugin implements Listener {
 
     new BukkitRunnable() {
 
-      private int subTitleIndex = 0;
+      private int subtitleIndex = 0;
 
       @Override
       public void run() {
         player.sendTitlePart(TitlePart.TITLE, titleComponent);
-        player.sendTitlePart(TitlePart.SUBTITLE, changingSubtitleComponents.get(subTitleIndex));
+        player.sendTitlePart(TitlePart.SUBTITLE, changingSubtitleComponents.get(subtitleIndex));
         player.sendTitlePart(TitlePart.TIMES, Title.Times.times(Duration.ZERO, Duration.ofSeconds(10L), Duration.ZERO));
 
-        getLogger().info(changingSubtitleComponents.get(subTitleIndex).toString());
+        getLogger().info(changingSubtitleComponents.get(subtitleIndex).toString());
 
-        subTitleIndex++;
-        subTitleIndex %= changingSubtitleComponents.size();
+        subtitleIndex++;
+        subtitleIndex %= changingSubtitleComponents.size();
       }
-    }.runTaskTimer(this, 0L, secondsBeforeChaning * 20L);
+    }.runTaskTimer(this, 0L, secondsBeforeChanging * 20L);
   }
 }
