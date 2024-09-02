@@ -5,7 +5,7 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.player.PlayerResourcePackStatusEvent;
+import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.checkerframework.checker.nullness.qual.NonNull;
@@ -13,11 +13,13 @@ import org.checkerframework.framework.qual.DefaultQualifier;
 
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextComponent;
+import net.kyori.adventure.title.Title;
 import net.kyori.adventure.title.TitlePart;
 import net.md_5.bungee.api.ChatColor;
 
 import java.util.List;
 import java.util.stream.Stream;
+import java.time.Duration;
 
 @DefaultQualifier(NonNull.class)
 public final class TitlePlugin extends JavaPlugin implements Listener {
@@ -45,28 +47,24 @@ public final class TitlePlugin extends JavaPlugin implements Listener {
   }
 
   @EventHandler
-  public void onResourcePackLoad(PlayerResourcePackStatusEvent event) {
-    PlayerResourcePackStatusEvent.Status status = event.getStatus();
+  public void onResourcePackLoad(PlayerJoinEvent event) {
+    Player player = event.getPlayer();
 
-    if (status.equals(PlayerResourcePackStatusEvent.Status.SUCCESSFULLY_LOADED)) {
-      Player player = event.getPlayer();
+    new BukkitRunnable() {
 
-      player.sendTitlePart(TitlePart.TITLE, titleComponent);
+      private int subTitleIndex = 0;
 
-      new BukkitRunnable() {
+      @Override
+      public void run() {
+        player.sendTitlePart(TitlePart.TITLE, titleComponent);
+        player.sendTitlePart(TitlePart.SUBTITLE, changingSubtitleComponents.get(subTitleIndex));
+        player.sendTitlePart(TitlePart.TIMES, Title.Times.times(Duration.ZERO, Duration.ofSeconds(10L), Duration.ZERO));
 
-        private int subTitleIndex = 0;
+        getLogger().info(changingSubtitleComponents.get(subTitleIndex).toString());
 
-        @Override
-        public void run() {
-
-          player.sendTitlePart(TitlePart.SUBTITLE, changingSubtitleComponents.get(subTitleIndex));
-
-          subTitleIndex++;
-          subTitleIndex %= changingSubtitleComponents.size();
-        }
-        
-      }.runTaskTimer(this, secondsBeforeChaning * 20L, secondsBeforeChaning * 20L);
-    }
+        subTitleIndex++;
+        subTitleIndex %= changingSubtitleComponents.size();
+      }
+    }.runTaskTimer(this, 0L, secondsBeforeChaning * 20L);
   }
 }
