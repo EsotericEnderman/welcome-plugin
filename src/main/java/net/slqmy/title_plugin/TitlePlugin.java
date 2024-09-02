@@ -1,4 +1,4 @@
-package net.slqmy.template_paper_plugin;
+package net.slqmy.title_plugin;
 
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
