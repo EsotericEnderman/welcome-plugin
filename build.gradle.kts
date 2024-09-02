@@ -38,7 +38,7 @@ fun pascalcase(kebabcaseString: String): String {
   return pascalCaseString
 }
 
-description = "Test plugin for paperweight-userdev"
+description = "A plugin for displaying titles."
 
 val mainProjectAuthor = "Slqmy"
 val projectAuthors = listOfNotNull(mainProjectAuthor)

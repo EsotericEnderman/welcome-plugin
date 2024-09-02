@@ -1,6 +1,9 @@
-language:
-  default-language: English (United Kingdom)
-  use-custom-messages: false
+# This is the title that will be displayed once a player joins.
+title: "&atitle"
 
-http-server:
-  port: 8000
+subtitle:
+  - "&asub1"
+  - "&asub2"
+  - "&asub3"
+
+seconds-before-changing: 5
