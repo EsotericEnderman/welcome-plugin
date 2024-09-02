@@ -42,7 +42,8 @@ public final class TitlePlugin extends JavaPlugin implements Listener {
     FileConfiguration configuration = getConfig();
 
     titleComponent = Component.text(ChatColor.translateAlternateColorCodes('&', configuration.getString("title", "Title (can be changed in config.yml)")));
-    changingSubtitleComponents = (List<TextComponent>) Stream.of((configuration.getList("subtitle", List.of())).toArray(String[]::new)).map((string) -> Component.text(ChatColor.translateAlternateColorCodes('&', string))).toList();
+    changingSubtitleComponents = (List<TextComponent>) Stream.of((configuration.getList("subtitle", List.of())).toArray(String[]::new))
+        .map((string) -> Component.text(ChatColor.translateAlternateColorCodes('&', string))).toList();
     secondsBeforeChanging = configuration.getLong("seconds-before-changing", 5L);
 
     fadeInTime = configuration.getLong("fade-in-time", 0L);
