@@ -9,3 +9,13 @@ subtitle:
 
 # The time in between subtitles displaying.
 seconds-before-changing: 5
+
+# Fading config
+# How long it takes for the title/subtitle to appear on screen.
+fade-in-time: 1
+
+# How long it stays without fading.
+stay-time: 1
+
+# How long it takes for the title/subtitle to fade out.
+fade-out-time: 1

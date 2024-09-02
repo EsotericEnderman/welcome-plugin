@@ -28,6 +28,10 @@ public final class TitlePlugin extends JavaPlugin implements Listener {
   private List<TextComponent> changingSubtitleComponents;
   private long secondsBeforeChanging;
 
+  private long fadeInTime;
+  private long stayTime;
+  private long fadeOutTime;
+
   @Override
   public void onEnable() {
     getDataFolder().mkdir();
@@ -40,6 +44,10 @@ public final class TitlePlugin extends JavaPlugin implements Listener {
     titleComponent = Component.text(ChatColor.translateAlternateColorCodes('&', configuration.getString("title", "Title (can be changed in config.yml)")));
     changingSubtitleComponents = (List<TextComponent>) Stream.of((configuration.getList("subtitle", List.of())).toArray(String[]::new)).map((string) -> Component.text(ChatColor.translateAlternateColorCodes('&', string))).toList();
     secondsBeforeChanging = configuration.getLong("seconds-before-changing", 5L);
+
+    fadeInTime = configuration.getLong("fade-in-time", 0L);
+    stayTime = configuration.getLong("stay-time", 10L);
+    fadeOutTime = configuration.getLong("fade-out-time", 0L);
   }
 
   @EventHandler
@@ -54,7 +62,7 @@ public final class TitlePlugin extends JavaPlugin implements Listener {
       public void run() {
         player.sendTitlePart(TitlePart.TITLE, titleComponent);
         player.sendTitlePart(TitlePart.SUBTITLE, changingSubtitleComponents.get(subtitleIndex));
-        player.sendTitlePart(TitlePart.TIMES, Title.Times.times(Duration.ZERO, Duration.ofSeconds(10L), Duration.ZERO));
+        player.sendTitlePart(TitlePart.TIMES, Title.Times.times(Duration.ofSeconds(fadeInTime), Duration.ofSeconds(stayTime), Duration.ofSeconds(fadeOutTime)));
 
         getLogger().info(changingSubtitleComponents.get(subtitleIndex).toString());
 
