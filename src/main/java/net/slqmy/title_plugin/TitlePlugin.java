@@ -39,7 +39,7 @@ public final class TitlePlugin extends JavaPlugin implements Listener {
 
     titleComponent = Component.text(ChatColor.translateAlternateColorCodes('&', configuration.getString("title", "Title")));
 
-    changingSubtitleComponents = Stream.of((List<String>) configuration.getList("subtitle", List.of())).map((string) -> Component.text(ChatColor.translateAlternateColorCodes('&', ""))).toList();
+    changingSubtitleComponents = (List<TextComponent>) Stream.of((configuration.getList("subtitle", List.of())).toArray(String[]::new)).map((string) -> Component.text(ChatColor.translateAlternateColorCodes('&', string))).toList();
 
     secondsBeforeChaning = configuration.getLong("seconds-before-changing", 5L);
   }
