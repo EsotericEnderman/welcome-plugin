@@ -1,0 +1,6 @@
+language:
+  default-language: English (United Kingdom)
+  use-custom-messages: false
+
+http-server:
+  port: 8000
