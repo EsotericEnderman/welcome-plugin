@@ -67,7 +67,9 @@ public final class TitlePlugin extends JavaPlugin implements Listener {
         getLogger().info(changingSubtitleComponents.get(subtitleIndex).toString());
 
         subtitleIndex++;
-        subtitleIndex %= changingSubtitleComponents.size();
+        if (subtitleIndex == changingSubtitleComponents.size()) {
+          cancel();
+        }
       }
     }.runTaskTimer(this, 0L, secondsBeforeChanging * 20L);
   }
