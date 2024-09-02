@@ -48,7 +48,7 @@ val topLevelDomain = "net"
 val projectNameString = rootProject.name
 
 group = topLevelDomain + groupStringSeparator + mainProjectAuthor.lowercase() + groupStringSeparator + snakecase(projectNameString)
-version = "0.0.4"
+version = "0.0.5"
 
 val buildDirectoryString = buildDir.toString()
 
@@ -57,7 +57,9 @@ val projectVersionString = version.toString()
 
 val javaVersion = 21
 val javaVersionEnumMember = JavaVersion.valueOf("VERSION_" + javaVersion)
-val paperApiVersion = "1.21"
+
+val paperApiMinecraftVersion = "1.20.4"
+val paperApiVersion = "1.20.4" + "-" + "R0.1-SNAPSHOT"
 
 java {
   sourceCompatibility = javaVersionEnumMember
@@ -67,11 +69,11 @@ java {
 }
 
 repositories {
-    mavenCentral()
+  mavenCentral()
 }
 
 dependencies {
-  paperweight.paperDevBundle(paperApiVersion + "-R0.1-SNAPSHOT")
+  paperweight.paperDevBundle(paperApiVersion)
 }
 
 tasks {
@@ -96,7 +98,7 @@ bukkitPluginYaml {
   authors = projectAuthors
 
   main = projectGroupString + groupStringSeparator + pascalcase(projectNameString)
-  apiVersion = paperApiVersion
+  apiVersion = paperApiMinecraftVersion
 
   load = BukkitPluginYaml.PluginLoadOrder.STARTUP
 }
