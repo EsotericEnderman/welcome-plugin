@@ -3,7 +3,6 @@ package net.slqmy.title_plugin;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -51,25 +50,36 @@ public final class TitlePlugin extends JavaPlugin implements Listener {
     fadeOutTime = configuration.getLong("fade-out-time", 0L);
   }
 
-  @EventHandler
   public void onResourcePackLoad(PlayerJoinEvent event) {
-    Player player = event.getPlayer();
+    new TitleRunnable(this, event.getPlayer());
+  }
 
-    new BukkitRunnable() {
+  private final class TitleRunnable extends BukkitRunnable {
 
-      private int subtitleIndex = 0;
+    private final Player player;
 
-      @Override
-      public void run() {
+    private int subtitleIndex = 0;
+
+    public TitleRunnable(TitlePlugin plugin, Player player) {
+      this.player = player;
+
+      runTaskTimer(plugin, 0L, secondsBeforeChanging * 20L);
+    }
+
+    @Override
+    public void run() {
+      try {
         player.sendTitlePart(TitlePart.TITLE, titleComponent);
         player.sendTitlePart(TitlePart.SUBTITLE, changingSubtitleComponents.get(subtitleIndex));
         player.sendTitlePart(TitlePart.TIMES, Title.Times.times(Duration.ofSeconds(fadeInTime), Duration.ofSeconds(stayTime), Duration.ofSeconds(fadeOutTime)));
-
-        subtitleIndex++;
-        if (subtitleIndex == changingSubtitleComponents.size()) {
-          cancel();
-        }
+      } catch (Exception exception) {
+        return;
       }
-    }.runTaskTimer(this, 0L, secondsBeforeChanging * 20L);
+
+      subtitleIndex++;
+      if (subtitleIndex == changingSubtitleComponents.size()) {
+        cancel();
+      }
+    }
   }
 }
