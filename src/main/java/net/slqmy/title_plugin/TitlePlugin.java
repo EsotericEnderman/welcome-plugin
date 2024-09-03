@@ -28,7 +28,8 @@ import java.time.Duration;
 @DefaultQualifier(NonNull.class)
 public final class TitlePlugin extends JavaPlugin implements Listener {
 
-  private final List<UUID> alreadySentTitlePlayers = new ArrayList<>();;
+  private final List<UUID> resourcePackLoadedPlayers = new ArrayList<>();
+  private final List<UUID> joinedPlayers = new ArrayList<>();;
 
   private Component titleComponent;
   private List<TextComponent> changingSubtitleComponents;
@@ -62,33 +63,36 @@ public final class TitlePlugin extends JavaPlugin implements Listener {
     Player player = event.getPlayer();
     UUID playerUuid = player.getUniqueId();
 
-    if (alreadySentTitlePlayers.contains(playerUuid)) {
-      return;
+    joinedPlayers.add(playerUuid);
+
+    if (resourcePackLoadedPlayers.contains(playerUuid)) {
+      new TitleRunnable(this, player);
     }
-
-    new TitleRunnable(this, player);
-
-    alreadySentTitlePlayers.add(playerUuid);
   }
 
   @EventHandler
   public void onResourcePackLoad(PlayerResourcePackStatusEvent event) {
-    Player player = event.getPlayer();
-    UUID playerUuid = player.getUniqueId();
-
-    if (alreadySentTitlePlayers.contains(playerUuid)) {
+    if (event.getStatus() != PlayerResourcePackStatusEvent.Status.SUCCESSFULLY_LOADED) {
       return;
     }
 
-    if (event.getStatus() == PlayerResourcePackStatusEvent.Status.SUCCESSFULLY_LOADED) {
+    Player player = event.getPlayer();
+    UUID playerUuid = player.getUniqueId();
+
+    resourcePackLoadedPlayers.add(playerUuid);
+
+    if (joinedPlayers.contains(playerUuid)) {
       new TitleRunnable(this, player);
-      alreadySentTitlePlayers.add(playerUuid);
     }
   }
 
   @EventHandler
   public void onQuit(PlayerQuitEvent event) {
-    alreadySentTitlePlayers.remove(event.getPlayer().getUniqueId());
+    Player player = event.getPlayer();
+    UUID playerUuid = player.getUniqueId();
+
+    joinedPlayers.remove(playerUuid);
+    resourcePackLoadedPlayers.remove(playerUuid);
   }
 
   private final class TitleRunnable extends BukkitRunnable {
@@ -113,9 +117,6 @@ public final class TitlePlugin extends JavaPlugin implements Listener {
       player.sendTitlePart(TitlePart.TITLE, titleComponent);
       player.sendTitlePart(TitlePart.SUBTITLE, changingSubtitleComponents.get(subtitleIndex));
       player.sendTitlePart(TitlePart.TIMES, Title.Times.times(Duration.ofSeconds(fadeInTime), Duration.ofSeconds(stayTime), Duration.ofSeconds(fadeOutTime)));
-      } catch (Exception exception) {
-        return;
-      }
 
       subtitleIndex++;
       if (subtitleIndex == changingSubtitleComponents.size()) {
