@@ -35,6 +35,9 @@ public final class TitlePlugin extends JavaPlugin implements Listener {
   private List<TextComponent> changingSubtitleComponents;
   private long secondsBeforeChanging;
 
+  private long firstSubtitleFadeInTime;
+  private long lastSubtitleFadeOutTime;
+
   private long fadeInTime;
   private long stayTime;
   private long fadeOutTime;
@@ -52,6 +55,9 @@ public final class TitlePlugin extends JavaPlugin implements Listener {
     changingSubtitleComponents = (List<TextComponent>) Stream.of((configuration.getList("subtitle", List.of())).toArray(String[]::new))
         .map((string) -> Component.text(ChatColor.translateAlternateColorCodes('&', string))).toList();
     secondsBeforeChanging = configuration.getLong("seconds-before-changing", 5L);
+
+    firstSubtitleFadeInTime = configuration.getLong("first-subtitle-fade-in-time", 0L);
+    lastSubtitleFadeOutTime = configuration.getLong("last-subtitle-fade-out-time", 0L);
 
     fadeInTime = configuration.getLong("fade-in-time", 0L);
     stayTime = configuration.getLong("stay-time", 10L);
@@ -116,7 +122,7 @@ public final class TitlePlugin extends JavaPlugin implements Listener {
 
       player.sendTitlePart(TitlePart.TITLE, titleComponent);
       player.sendTitlePart(TitlePart.SUBTITLE, changingSubtitleComponents.get(subtitleIndex));
-      player.sendTitlePart(TitlePart.TIMES, Title.Times.times(Duration.ofSeconds(fadeInTime), Duration.ofSeconds(stayTime), Duration.ofSeconds(fadeOutTime)));
+      player.sendTitlePart(TitlePart.TIMES, Title.Times.times(Duration.ofSeconds(subtitleIndex == 0 ? firstSubtitleFadeInTime : fadeInTime), Duration.ofSeconds(stayTime), Duration.ofSeconds(subtitleIndex == changingSubtitleComponents.size() - 1 ? lastSubtitleFadeOutTime : fadeOutTime)));
 
       subtitleIndex++;
       if (subtitleIndex == changingSubtitleComponents.size()) {

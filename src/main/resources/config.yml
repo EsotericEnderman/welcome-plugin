@@ -1,6 +1,12 @@
 # This is the title that will be displayed once a player joins.
 title: "&aTitle"
 
+# The amount of time that the very first subtitle will fade in for.
+first-subtitle-fade-in-time: 1
+
+# The amount of time that the very last subtitle will fade out for.
+last-subtitle-fade-out-time: 1
+
 # The subtitles that will be displayed periodically as defined with 'seconds-before-changing'.
 subtitle:
   - "&aSubtitle 1"
