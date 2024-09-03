@@ -3,8 +3,11 @@ package net.slqmy.title_plugin;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.event.player.PlayerResourcePackStatusEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.checkerframework.checker.nullness.qual.NonNull;
@@ -17,11 +20,15 @@ import net.kyori.adventure.title.TitlePart;
 import net.md_5.bungee.api.ChatColor;
 
 import java.util.List;
+import java.util.ArrayList;
 import java.util.stream.Stream;
+import java.util.UUID;
 import java.time.Duration;
 
 @DefaultQualifier(NonNull.class)
 public final class TitlePlugin extends JavaPlugin implements Listener {
+
+  private final List<UUID> alreadySentTitlePlayers = new ArrayList<>();;
 
   private Component titleComponent;
   private List<TextComponent> changingSubtitleComponents;
@@ -50,8 +57,38 @@ public final class TitlePlugin extends JavaPlugin implements Listener {
     fadeOutTime = configuration.getLong("fade-out-time", 0L);
   }
 
+  @EventHandler
   public void onResourcePackLoad(PlayerJoinEvent event) {
-    new TitleRunnable(this, event.getPlayer());
+    Player player = event.getPlayer();
+    UUID playerUuid = player.getUniqueId();
+
+    if (alreadySentTitlePlayers.contains(playerUuid)) {
+      return;
+    }
+
+    new TitleRunnable(this, player);
+
+    alreadySentTitlePlayers.add(playerUuid);
+  }
+
+  @EventHandler
+  public void onResourcePackLoad(PlayerResourcePackStatusEvent event) {
+    Player player = event.getPlayer();
+    UUID playerUuid = player.getUniqueId();
+
+    if (alreadySentTitlePlayers.contains(playerUuid)) {
+      return;
+    }
+
+    if (event.getStatus() == PlayerResourcePackStatusEvent.Status.SUCCESSFULLY_LOADED) {
+      new TitleRunnable(this, player);
+      alreadySentTitlePlayers.add(playerUuid);
+    }
+  }
+
+  @EventHandler
+  public void onQuit(PlayerQuitEvent event) {
+    alreadySentTitlePlayers.remove(event.getPlayer().getUniqueId());
   }
 
   private final class TitleRunnable extends BukkitRunnable {
