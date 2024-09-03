@@ -8,7 +8,7 @@ subtitle:
   - "&aSubtitle 3"
 
 # The time in between subtitles displaying.
-seconds-before-changing: 5
+seconds-before-changing: 7
 
 # Fading config
 # How long it takes for the title/subtitle to appear on screen.
