@@ -105,10 +105,14 @@ public final class TitlePlugin extends JavaPlugin implements Listener {
 
     @Override
     public void run() {
-      try {
-        player.sendTitlePart(TitlePart.TITLE, titleComponent);
-        player.sendTitlePart(TitlePart.SUBTITLE, changingSubtitleComponents.get(subtitleIndex));
-        player.sendTitlePart(TitlePart.TIMES, Title.Times.times(Duration.ofSeconds(fadeInTime), Duration.ofSeconds(stayTime), Duration.ofSeconds(fadeOutTime)));
+      if (!player.isOnline()) {
+        cancel();
+        return;
+      }
+
+      player.sendTitlePart(TitlePart.TITLE, titleComponent);
+      player.sendTitlePart(TitlePart.SUBTITLE, changingSubtitleComponents.get(subtitleIndex));
+      player.sendTitlePart(TitlePart.TIMES, Title.Times.times(Duration.ofSeconds(fadeInTime), Duration.ofSeconds(stayTime), Duration.ofSeconds(fadeOutTime)));
       } catch (Exception exception) {
         return;
       }
