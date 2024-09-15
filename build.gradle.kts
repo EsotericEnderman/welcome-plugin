@@ -40,15 +40,15 @@ fun pascalcase(kebabcaseString: String): String {
 
 description = "A plugin to display a title and a changing subtitle."
 
-val mainProjectAuthor = "Slqmy"
+val mainProjectAuthor = "Esoteric Enderman"
 val projectAuthors = listOfNotNull(mainProjectAuthor)
 
-val topLevelDomain = "net"
+val topLevelDomain = "dev"
 
 val projectNameString = rootProject.name
 
 group = topLevelDomain + groupStringSeparator + mainProjectAuthor.lowercase() + groupStringSeparator + snakecase(projectNameString)
-version = "0.0.10"
+version = "0.0.11"
 
 val buildDirectoryString = buildDir.toString()
 
