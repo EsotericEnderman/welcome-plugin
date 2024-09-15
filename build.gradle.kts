@@ -18,6 +18,10 @@ val groupStringSeparator = "."
 val kebabcaseStringSeparator = "-"
 val snakecaseStringSeparator = "_"
 
+fun kebabcase(normalString: String): String {
+  return normalString.lowercase().replace(" ", kebabcaseStringSeparator)
+}
+
 fun capitalizeFirstLetter(string: String): String {
   return string.first().uppercase() + string.slice(IntRange(1, string.length - 1))
 }
@@ -47,8 +51,8 @@ val topLevelDomain = "dev"
 
 val projectNameString = rootProject.name
 
-group = topLevelDomain + groupStringSeparator + mainProjectAuthor.lowercase() + groupStringSeparator + snakecase(projectNameString)
-version = "0.0.11"
+group = topLevelDomain + groupStringSeparator + snakecase(kebabcase(mainProjectAuthor)) + groupStringSeparator + snakecase(projectNameString)
+version = "0.0.12"
 
 val buildDirectoryString = buildDir.toString()
 
