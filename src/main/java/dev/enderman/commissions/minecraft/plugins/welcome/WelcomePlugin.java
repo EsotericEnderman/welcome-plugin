@@ -26,7 +26,7 @@ import java.util.UUID;
 import java.time.Duration;
 
 @DefaultQualifier(NonNull.class)
-public final class TitlePlugin extends JavaPlugin implements Listener {
+public final class WelcomePlugin extends JavaPlugin implements Listener {
 
   private final List<UUID> resourcePackLoadedPlayers = new ArrayList<>();
   private final List<UUID> joinedPlayers = new ArrayList<>();;
@@ -107,7 +107,7 @@ public final class TitlePlugin extends JavaPlugin implements Listener {
 
     private int subtitleIndex = 0;
 
-    public TitleRunnable(TitlePlugin plugin, Player player) {
+    public TitleRunnable(WelcomePlugin plugin, Player player) {
       this.player = player;
 
       runTaskTimer(plugin, 0L, secondsBeforeChanging * 20L);
