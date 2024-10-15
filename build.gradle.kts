@@ -10,8 +10,6 @@ plugins {
   id("io.papermc.paperweight.userdev") version "1.7.2"
   id("xyz.jpenilla.resource-factory-bukkit-convention") version "1.1.1"
   id("xyz.jpenilla.run-paper") version "2.3.0"
-
-  id("io.github.goooler.shadow") version "8.1.7"
 }
 
 val groupStringSeparator = "."
@@ -51,7 +49,7 @@ val topLevelDomain = "dev"
 
 val projectNameString = rootProject.name
 
-group = topLevelDomain + groupStringSeparator + snakecase(kebabcase(mainProjectAuthor)) + groupStringSeparator + snakecase(projectNameString)
+group = topLevelDomain + groupStringSeparator + "enderman"
 version = "0.0.12"
 
 val buildDirectoryString = buildDir.toString()
@@ -60,10 +58,10 @@ val projectGroupString = group.toString()
 val projectVersionString = version.toString()
 
 val javaVersion = 17
-val javaVersionEnumMember = JavaVersion.valueOf("VERSION_" + javaVersion)
+val javaVersionEnumMember = JavaVersion.valueOf("VERSION_$javaVersion")
 
 val paperApiMinecraftVersion = "1.20"
-val paperApiVersion = paperApiMinecraftVersion + "-" + "R0.1-SNAPSHOT"
+val paperApiVersion = "$paperApiMinecraftVersion-R0.1-SNAPSHOT"
 
 java {
   sourceCompatibility = javaVersionEnumMember
@@ -72,23 +70,11 @@ java {
   toolchain.languageVersion = JavaLanguageVersion.of(javaVersion)
 }
 
-repositories {
-  mavenCentral()
-}
-
 dependencies {
   paperweight.paperDevBundle(paperApiVersion)
 }
 
 tasks {
-  build {
-    dependsOn(shadowJar)
-  }
-
-  shadowJar {
-    archiveFileName = projectNameString + "-" + projectVersionString + "." + "jar"
-  }
-
   compileJava {
     options.release = javaVersion
   }
@@ -99,11 +85,13 @@ tasks {
 }
 
 bukkitPluginYaml {
+  name = "Welcome"
+  description = project.description
   authors = projectAuthors
 
-  main = projectGroupString + groupStringSeparator + pascalcase(projectNameString)
+  version = project.version.toString()
   apiVersion = paperApiMinecraftVersion
-
+  main = projectGroupString + groupStringSeparator + "commissions.minecraft.plugins.welcome" + pascalcase(projectNameString)
   load = BukkitPluginYaml.PluginLoadOrder.STARTUP
 }
 
