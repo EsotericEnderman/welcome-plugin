@@ -11,6 +11,7 @@ import org.bukkit.event.player.PlayerResourcePackStatusEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.checkerframework.checker.nullness.qual.NonNull;
+import org.checkerframework.checker.nullness.qual.Nullable;
 import org.checkerframework.framework.qual.DefaultQualifier;
 
 import net.kyori.adventure.text.Component;
@@ -31,8 +32,8 @@ public final class WelcomePlugin extends JavaPlugin implements Listener {
   private final List<UUID> resourcePackLoadedPlayers = new ArrayList<>();
   private final List<UUID> joinedPlayers = new ArrayList<>();;
 
-  private Component titleComponent;
-  private List<TextComponent> changingSubtitleComponents;
+  private @Nullable Component titleComponent;
+  private @Nullable List<TextComponent> changingSubtitleComponents;
   private long secondsBeforeChanging;
 
   private long firstSubtitleFadeInTime;
