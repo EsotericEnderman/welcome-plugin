@@ -44,6 +44,7 @@ public final class WelcomePlugin extends JavaPlugin implements Listener {
   private long fadeOutTime;
 
   @Override
+  @SuppressWarnings({"deprecation", "SuspiciousToArrayCall"})
   public void onEnable() {
     getDataFolder().mkdir();
     saveDefaultConfig();
@@ -53,7 +54,7 @@ public final class WelcomePlugin extends JavaPlugin implements Listener {
     FileConfiguration configuration = getConfig();
 
     titleComponent = Component.text(ChatColor.translateAlternateColorCodes('&', configuration.getString("title", "Title (can be changed in config.yml)")));
-    changingSubtitleComponents = (List<TextComponent>) Stream.of((configuration.getList("subtitle", List.of())).toArray(String[]::new))
+    changingSubtitleComponents = Stream.of((configuration.getList("subtitle", List.of())).toArray(String[]::new))
         .map((string) -> Component.text(ChatColor.translateAlternateColorCodes('&', string))).toList();
     secondsBeforeChanging = configuration.getLong("seconds-before-changing", 5L);
 
@@ -120,6 +121,9 @@ public final class WelcomePlugin extends JavaPlugin implements Listener {
         cancel();
         return;
       }
+
+      assert titleComponent != null;
+      assert changingSubtitleComponents != null;
 
       player.sendTitlePart(TitlePart.TITLE, titleComponent);
       player.sendTitlePart(TitlePart.SUBTITLE, changingSubtitleComponents.get(subtitleIndex));
