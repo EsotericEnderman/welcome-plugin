@@ -50,7 +50,7 @@ val topLevelDomain = "dev"
 val projectNameString = rootProject.name
 
 group = topLevelDomain + groupStringSeparator + "enderman"
-version = "0.0.12"
+version = "0.0.13"
 
 val buildDirectoryString = buildDir.toString()
 
