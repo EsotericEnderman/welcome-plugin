@@ -91,7 +91,7 @@ bukkitPluginYaml {
 
   version = project.version.toString()
   apiVersion = paperApiMinecraftVersion
-  main = projectGroupString + groupStringSeparator + "commissions.minecraft.plugins.welcome" + pascalcase(projectNameString)
+  main = projectGroupString + groupStringSeparator + "commissions.minecraft.plugins.welcome" + groupStringSeparator + pascalcase(projectNameString)
   load = BukkitPluginYaml.PluginLoadOrder.STARTUP
 }
 
