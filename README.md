@@ -1,5 +1,7 @@
 # Welcome Plugin
 
+<sup>generated from [EsotericTemplates/paper-template-plugin](https://github.com/EsotericTemplates/paper-template-plugin)</sup>
+
 [![Project Status: Completed](./assets/images/badges/status.svg)](./)
 
 > A commissioned Minecraft plugin that displays a title and changing subtitle when a player joins the server. 
