@@ -44,7 +44,7 @@ public final class WelcomePlugin extends JavaPlugin implements Listener {
   private long fadeOutTime;
 
   @Override
-  @SuppressWarnings({"deprecation", "SuspiciousToArrayCall"})
+  @SuppressWarnings({"SuspiciousToArrayCall"})
   public void onEnable() {
     getDataFolder().mkdir();
     saveDefaultConfig();
