@@ -8,10 +8,30 @@
         "editor.detectIndentation": false
     },
     "cSpell.words": [
+        "alnum",
+        "appname",
+        "bukkit",
         "Bukkit",
+        "CDPATH",
+        "classpath",
+        "CLASSPATH",
+        "cygpath",
+        "darwin",
+        "Dorg",
         "enderman",
         "Enderman",
+        "JAVACMD",
+        "jpenilla",
+        "kebabcase",
+        "metacharacter",
         "minecraft",
+        "msys",
+        "papermc",
+        "pascalcase",
+        "resourcefactory",
+        "shellness",
+        "snakecase",
+        "userdev",
         "xlink"
     ]
 }
